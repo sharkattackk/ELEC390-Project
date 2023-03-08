@@ -26,7 +26,7 @@ with h5.File('./Project-data.h5', mode='w') as store:
     G2.create_dataset('jumping', data = df3)
     G2.create_dataset('walking', data = df4)
 
-    #adding Msendoos data group
+    #adding Msendoo's data group
 
 
     #need to shuffle these
