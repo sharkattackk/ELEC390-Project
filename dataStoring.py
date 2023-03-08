@@ -16,7 +16,7 @@ combinedW = pd.concat(framesW, keys=["x", "y"])
 
 # create HDF5 files and store dataframes in them
 with h5.File('./Project-data.h5', mode='w') as store:
-    #adding Lydias data group
+    #adding Lydia's data group
     G1 = store.create_group('/Lydia')
     G1.create_dataset('jumping', data = df1)
     G1.create_dataset('walking', data = df2)
