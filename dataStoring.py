@@ -5,13 +5,21 @@ import h5py
 # read CSV files into pandas dataframes
 df1 = pd.read_csv('Lydia_Jump_right pocket - front pocket.csv')
 df2 = pd.read_csv('Lydia_Walking_right pocket-front pocket.csv')
+df3 = pd.read_csv('Cameron_jump_right_pocket_&_front_pocket.csv')
+df4 = pd.read_csv('Cameron_walking_right_pocket_&_front_pocket.csv')
 
 # create HDF5 files and store dataframes in them
 with pd.HDFStore('Lydia_Jump_right pocket - front pocket.h5', mode='w') as store:
     store.put('df1', df1)
-#testing git
+
 with pd.HDFStore('Lydia_Walking_right pocket-front pocket.h5', mode='w') as store:
     store.put('df2', df2)
+
+with pd.HDFStore('Cameron_jump_right_pocket_&_front_pocket.h5', mode='w') as store:
+    store.put('df3', df3)
+
+with pd.HDFStore('Cameron_walking_right_pocket_&_front_pocket.h5', mode='w') as store:
+    store.put('df4', df4)
 
 matrix_1 = np.random.random(size = (1000,1000))
 matrix_2 = np.random.random(size = (1000,1000))
@@ -33,4 +41,3 @@ with h5py.File('./Lydia_member1.h5','w') as hdf:
     member1.create_dataset('dataset1_Lydia_Jump', data = matrix_1)
     member1.create_dataset('dataset2_Lydia_walk', data = matrix_2)
 
-    #hdf.create_dataset('dataset1_Lydia_Jump', data = matrix_1)s
