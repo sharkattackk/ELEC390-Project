@@ -1,36 +1,43 @@
 import pandas as pd
 import numpy as np
-import h5py
+import h5py as h5
 
 # read CSV files into pandas dataframes
 df1 = pd.read_csv('Lydia_Jump_right pocket - front pocket.csv')
 df2 = pd.read_csv('Lydia_Walking_right pocket-front pocket.csv')
+df3 = pd.read_csv('Cameron_jump_right_pocket_&_front_pocket.csv')
+df4 = pd.read_csv('Cameron_walking_right_pocket_&_front_pocket.csv')
+
+#combined 
+framesJ = [df1, df2]
+combinedJ = pd.concat(framesJ, keys=["x", "y"])
+framesW = [df1, df2]
+combinedW = pd.concat(framesW, keys=["x", "y"])
 
 # create HDF5 files and store dataframes in them
-with pd.HDFStore('Lydia_Jump_right pocket - front pocket.h5', mode='w') as store:
-    store.put('df1', df1)
-#testing git
-with pd.HDFStore('Lydia_Walking_right pocket-front pocket.h5', mode='w') as store:
-    store.put('df2', df2)
+with h5.File('./Project-data.h5', mode='w') as store:
+    #adding Lydias data group
+    G1 = store.create_group('/Lydia')
+    G1.create_dataset('jumping', data = df1)
+    G1.create_dataset('walking', data = df2)
 
-matrix_1 = np.random.random(size = (1000,1000))
-matrix_2 = np.random.random(size = (1000,1000))
-matrix_3 = np.random.random(size = (1000,1000))
-matrix_4 = np.random.random(size = (1000,1000))
-matrix_5 = np.random.random(size = (1000,1000))
-matrix_6 = np.random.random(size = (1000,1000))
+    #adding camerons data group 
+    G2 = store.create_group('/Cameron')
+    G2.create_dataset('jumping', data = df3)
+    G2.create_dataset('walking', data = df4)
 
-#store hdf5 data into martix1
-with h5py.File('./Lydia_Jump_right pocket - front pocket.h5', 'r') as hdf:
-    matrix_1 = hdf['df1'][()]
+    #adding Msendoos data group
 
-with h5py.File('./Lydia_Walking_right pocket-front pocket.h5', 'r') as hdf:
-    matrix_2 = hdf['df2'][()]
 
-#
-with h5py.File('./Lydia_member1.h5','w') as hdf:
-    member1 = hdf.create_group('/Member1')
-    member1.create_dataset('dataset1_Lydia_Jump', data = matrix_1)
-    member1.create_dataset('dataset2_Lydia_walk', data = matrix_2)
+    #need to shuffle these
+    #adding train dataset
+    G4 = store.create_group('/dataset/train')
+        #jump
+    G4.create_dataset('jumping', data=combinedJ)
+        #walking
+    G4.create_dataset('walking', data=combinedW)
 
-    #hdf.create_dataset('dataset1_Lydia_Jump', data = matrix_1)s
+
+    #add 10% of all data to one file and shuffle
+    #adding test dataset
+
